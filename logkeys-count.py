@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import sys
 
 def replace(key):
@@ -53,18 +55,9 @@ def pad_value(val):
     return value
 
 
-def pretty_print(keys):
-    text = """
-. -----------------------------------------------------------------------------------------------------------------------------------------------------------.
-| [_Esc_] [_F1__][_F2__][_F3__][_F4__][_F5__][_F6__][_F7__][_F8__][_F9__][_F10_][_F11_][_F12_]            [PrtSc][ScrLk][Pause]                              |
-|                                                                                                                                                            |
-| [__`__][__1__][__2__][__3__][__4__][__5__][__6__][__7__][__8__][__9__][__0__][__-__][__=__][BckSp]      [_Ins_][Home_][PgUp_]  [NumLk][  =  ][_KP/_][_KP*_]|
-| [_Tab_][__q__][__w__][__e__][__r__][__t__][__y__][__u__][__i__][__o__][__p__][__[__][__]__][__\__]      [_Del_][_End_][PgDn_]  [_KP7_][_KP8_][_KP9_][_KP+_]|
-| [CpsLk][__a__][__s__][__d__][__f__][__g__][__h__][__j__][__k__][__l__][__;__][__'__]       [Enter]                             [_KP4_][_KP5_][_KP6_][_KP-_]|
-| [LShft][__z__][__x__][__c__][__v__][__b__][__n__][__m__][__,__][__.__][__/__]              [RShft]             [_Up__]         [_KP1_][_KP2_][_KP3_]       |
-| [LCtrl][LAlt_][LMeta][                        Space                         ][RMeta][AltGr][RCtrl]      [Left_][Down_][Right]  [       _KP0_][_KP._][KPEnt]|
-`------------------------------------------------------------------------------------------------------------------------------------------------------------'
-"""
+def pretty_print(keys, layout="layouts/en_US-apple"):
+    with open(layout, "r") as f:
+        text = ''.join(f.readlines())
     print(text)
     total = 0
     max_key = ''
@@ -100,9 +93,9 @@ def main():
                 char = replace(char)
                 char_count[char] = char_count.get(char, 0) + 1
 
-    for k,v in char_count.items():
-        #print("{}\t{}".format(k,v))
-        pass
-    pretty_print(char_count)
+    if len(sys.argv) >= 3:
+        pretty_print(char_count, "layouts/" + sys.argv[2])
+    else:
+        pretty_print(char_count)
 
 main()
